@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 
-namespace Project_JobOffers_.Controllers
+namespace JobOffer.Controllers
 {
     public class AuthController : Controller
     {

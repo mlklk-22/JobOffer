@@ -25,7 +25,7 @@ namespace JobOffer
         {
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
-           // services.AddDbContext<ModelContext>(options => options.UseOracle(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ModelContext>(options => options.UseOracle(Configuration.GetConnectionString("DefaultConnection")));
             services.AddSession(options => { options.IdleTimeout = TimeSpan.FromMinutes(60); });
             services.AddRazorPages();
 

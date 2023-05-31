@@ -15,7 +15,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 
-namespace Project_JobOffers_.Controllers
+namespace JobOffer.Controllers
 {
     public class ActualUserController : Controller
     {

@@ -1,7 +1,5 @@
 ﻿using JobOffer.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Project_JobOffers_.Controllers;
 using System.Linq;
 
 namespace JobOffer.Controllers

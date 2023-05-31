@@ -16,7 +16,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using MailKit.Net.Smtp;
 
-namespace Project_JobOffers_.Controllers
+namespace JobOffer.Controllers
 {
     public class JobsController : Controller
     {
