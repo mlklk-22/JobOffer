@@ -15,6 +15,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
+using static JobOffer.Enums.ApplicationEnums;
+
 
 namespace JobOffer.Controllers
 {
@@ -32,7 +34,8 @@ namespace JobOffer.Controllers
         {
             _context = context;
             _webHostEnviroment = webHostEnviroment;
-        } 
+
+        }
         #endregion
 
         #region Methods
@@ -48,7 +51,7 @@ namespace JobOffer.Controllers
             #endregion
             ViewBag.AdminUser =  HttpContext.Session.GetString("AdminUser");
             string AdminName = ViewBag.AdminUser;
-            ViewBag.PImage = _context.Useraccounths.Where(x => x.Username == AdminName).Select(x => x.Imagepath).FirstOrDefault();
+            ViewBag.PImage = HttpContext.Session.GetString("imagePath");
 
             return View("~/Views/Admin/Dashboard/Dashboard.cshtml");
         }
@@ -59,7 +62,7 @@ namespace JobOffer.Controllers
         #region Get Data Users
         public async Task<IActionResult> MainUser()
         {
-
+            ViewBag.PImage = HttpContext.Session.GetString("imagePath");
             var modelContext = _context.Useraccounths.Include(u => u.Role); // 1 user , 2 admin  
             return View("~/Views/Admin/ManageUsers/MainUser.cshtml", modelContext); 
 
@@ -71,6 +74,8 @@ namespace JobOffer.Controllers
         #region Get Data Users Details
         public async Task<IActionResult> DetailsUser(decimal? id)
         {
+            ViewBag.PImage = HttpContext.Session.GetString("imagePath");
+
             if (id == null)
             {
                 return NotFound();
@@ -93,6 +98,8 @@ namespace JobOffer.Controllers
         #region Get 
         public IActionResult CreateUser()
         {
+            ViewBag.PImage = HttpContext.Session.GetString("imagePath");
+
             ViewData["Roleid"] = new SelectList(_context.Rolehs, "Roleid", "Rolename");
             return View("~/Views/Admin/ManageUsers/CreateUser.cshtml");
         }
@@ -103,6 +110,8 @@ namespace JobOffer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateUser([Bind("Userid,Fullname,Username,Email,Phonenumber,Industialname,Roleid,Password,Imagepath, ImageFile")] Useraccounth useraccounth)
         {
+            ViewBag.PImage = HttpContext.Session.GetString("imagePath");
+
             if (ModelState.IsValid)
             {
                 string wwwrootPath = _webHostEnviroment.WebRootPath;
@@ -131,6 +140,8 @@ namespace JobOffer.Controllers
         #region Get
         public async Task<IActionResult> EditUser(decimal? id)
         {
+            ViewBag.PImage = HttpContext.Session.GetString("imagePath");
+
             if (id == null)
             {
                 return NotFound();
@@ -151,6 +162,8 @@ namespace JobOffer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditUser(decimal id, [Bind("Userid,Fullname,Username,Email,Phonenumber,Industialname,Roleid,Password,Imagepath, ImageFile")] Useraccounth useraccounth)
         {
+            ViewBag.PImage = HttpContext.Session.GetString("imagePath");
+
             if (id != useraccounth.Userid)
             {
                 return NotFound();
@@ -207,6 +220,8 @@ namespace JobOffer.Controllers
         #region Get
         public async Task<IActionResult> DeleteUser(decimal? id)
         {
+            ViewBag.PImage = HttpContext.Session.GetString("imagePath");
+
             if (id == null)
             {
                 return NotFound();
@@ -229,6 +244,8 @@ namespace JobOffer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteUser(decimal id)
         {
+            ViewBag.PImage = HttpContext.Session.GetString("imagePath");
+
             var useraccounth = await _context.Useraccounths.FindAsync(id);
             _context.Useraccounths.Remove(useraccounth);
             await _context.SaveChangesAsync();
@@ -252,6 +269,7 @@ namespace JobOffer.Controllers
         #region Manage Pending Jobs
         public async Task<IActionResult> ManagePendingJobs()
         {
+
             var modelContext = _context.Jobhs.Include(j => j.Address).
                                               Include(j => j.Jobcategory).
                                               Include(j => j.User).
@@ -394,7 +412,7 @@ namespace JobOffer.Controllers
            
             ViewData["Status"] = new SelectList(status);
             ViewData["JobType"] = new SelectList(JobType);
-            ViewData["Addressid"] = new SelectList(_context.Addresshes, "Addressid", "Addersscity");
+            ViewData["Addressid"] = new SelectList(_context.Addresshes, "Addressid", "Addresscity");
             ViewData["Jobcategoryid"] = new SelectList(_context.Jobcategoryhs, "Jobcategoryid", "Jobcategoryname");
             ViewData["Userid"] = new SelectList(_context.Useraccounths, "Userid", "Email");
             return View("~/Views/Admin/ManageJobs/CreateJobs.cshtml");
@@ -424,7 +442,7 @@ namespace JobOffer.Controllers
             }
 			ViewData["Status"] = new SelectList(status);
             ViewData["JobType"] = new SelectList(JobType);
-            ViewData["Addressid"] = new SelectList(_context.Addresshes, "Addressid", "Addersscity", job.Addressid);
+            ViewData["Addressid"] = new SelectList(_context.Addresshes, "Addressid", "Addresscity", job.Addressid);
             ViewData["Jobcategoryid"] = new SelectList(_context.Jobcategoryhs, "Jobcategoryid", "Jobcategoryname", job.Jobcategoryid);
             ViewData["Userid"] = new SelectList(_context.Useraccounths, "Userid", "Email", job.Userid);
             return View("~/Views/Admin/ManageJobs/CreateJobs.cshtml", job);
@@ -451,7 +469,7 @@ namespace JobOffer.Controllers
 
             ViewData["Status"] = new SelectList(status);
             ViewData["JobType"] = new SelectList(JobType);
-            ViewData["Addressid"] = new SelectList(_context.Addresshes, "Addressid", "Addersscity", jobh.Addressid);
+            ViewData["Addressid"] = new SelectList(_context.Addresshes, "Addressid", "Addresscity", jobh.Addressid);
             ViewData["Jobcategoryid"] = new SelectList(_context.Jobcategoryhs, "Jobcategoryid", "Jobcategoryname", jobh.Jobcategoryid);
             ViewData["Userid"] = new SelectList(_context.Useraccounths, "Userid", "Email", jobh.Userid);
             return View("~/Views/Admin/ManageJobs/EditJobs.cshtml", jobh);
@@ -509,7 +527,7 @@ namespace JobOffer.Controllers
 
             ViewData["Status"] = new SelectList(status);
 			ViewData["JobType"] = new SelectList(JobType);
-			ViewData["Addressid"] = new SelectList(_context.Addresshes, "Addressid", "Addersscity", jobh.Addressid);
+			ViewData["Addressid"] = new SelectList(_context.Addresshes, "Addressid", "Addresscity", jobh.Addressid);
             ViewData["Jobcategoryid"] = new SelectList(_context.Jobcategoryhs, "Jobcategoryid", "Jobcategoryname", jobh.Jobcategoryid);
             ViewData["Userid"] = new SelectList(_context.Useraccounths, "Userid", "Email", jobh.Userid);
             return View("~/Views/Admin/ManageJobs/EditJobs.cshtml", jobh);
@@ -606,7 +624,7 @@ namespace JobOffer.Controllers
         #region Post
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateAddress([Bind("Addressid,Addressname,Addersscity")] Addressh addressh)
+        public async Task<IActionResult> CreateAddress([Bind("Addressid,Addressname,Addresscity")] Addressh addressh)
         {
             if (ModelState.IsValid)
             {
@@ -642,7 +660,7 @@ namespace JobOffer.Controllers
         #region Post
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditAddress(decimal id, [Bind("Addressid,Addressname,Addersscity")] Addressh addressh)
+        public async Task<IActionResult> EditAddress(decimal id, [Bind("Addressid,Addressname,Addresscity")] Addressh addressh)
         {
             if (id != addressh.Addressid)
             {

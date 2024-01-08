@@ -4,6 +4,9 @@ using JobOffer.Models;
 using System;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace JobOffer.Controllers
 {
@@ -11,12 +14,14 @@ namespace JobOffer.Controllers
     {
         #region Objects
         private readonly ModelContext _context;
+        private readonly IWebHostEnvironment _webHostEnviroment;
         #endregion
 
         #region Constructors
-        public AuthController(ModelContext context)
+        public AuthController(ModelContext context, IWebHostEnvironment webHostEnviroment)
         {
             _context = context;
+            _webHostEnviroment = webHostEnviroment;
         }
         #endregion
 
@@ -48,6 +53,7 @@ namespace JobOffer.Controllers
                         #region Session For Admin's Username and AdminId
                         HttpContext.Session.SetString("AdminUser", auth.Username);
                         HttpContext.Session.SetInt32("AdminId", (int)auth.Userid);
+                        HttpContext.Session.SetString("imagePath", auth.Imagepath);
                         #endregion
 
                         return RedirectToAction("Dashboard", "Admin");
@@ -82,13 +88,11 @@ namespace JobOffer.Controllers
         #region Post
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult signUp([Bind("Fullname, Username, Email, Phonenumber, Industialname, Password")] Useraccounth user)
+        public async Task<IActionResult> signUp([Bind("Fullname, Username, Email, Phonenumber, Industialname, Password, Imagepath, ImageFile")] Useraccounth user)
         {
             if (user != null)
             {
-                #region Any Register User Will Have The Role id >> 2 Which is User 
                 user.Roleid = 2;
-                #endregion
                 if (user.Password.Length < 6)
                 {
                     Response.WriteAsync("<script>alert('Password Must Be Greater than 6 Character')</script>");
@@ -96,10 +100,23 @@ namespace JobOffer.Controllers
                 else
                 {
                     #region Add And Save
-                    _context.Add(user);
-                    _context.SaveChanges();
-                    #endregion
-                    return RedirectToAction("Login", "Auth");
+                    if (ModelState.IsValid)
+                    {
+                        string wwwrootPath = _webHostEnviroment.WebRootPath;
+                        string test = user.ImageFile.FileName;
+                        string fileName = Guid.NewGuid().ToString() + "_" + user.ImageFile.FileName;
+
+                        string path = Path.Combine(wwwrootPath + "/PersonalImages/" + fileName);
+                        using (var filestream = new FileStream(path, FileMode.Create))
+                        {
+                            await user.ImageFile.CopyToAsync(filestream);
+                        }
+                        user.Imagepath = fileName;
+                        _context.Add(user);
+                        _context.SaveChanges();
+                        #endregion
+                        return RedirectToAction("Login", "Auth");
+                    }
                 }
 
 

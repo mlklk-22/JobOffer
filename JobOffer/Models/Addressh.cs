@@ -14,8 +14,8 @@ namespace JobOffer.Models
 
         public decimal Addressid { get; set; }
         public string Addressname { get; set; }
-        public string Addersscity { get; set; }
-
+        public string Addresscity { get; set; }
+        
         public virtual ICollection<Jobh> Jobhs { get; set; }
     }
 }

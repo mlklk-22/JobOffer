@@ -13,7 +13,7 @@
                     <h5 class="m-b-10" style="font-size:20px;font-weight:bold; color:#89ba16">Create Address</h5>
                 </div>
                 <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html"><i class="feather icon-home"></i></a></li>
+                    <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Admin"><i class="feather icon-home"></i></a></li>
                     <li class="breadcrumb-item"><a href="#!">Manage Address</a></li>
                     <li class="breadcrumb-item"><a href="#!">Create New</a></li>
                 </ul>
@@ -34,9 +34,9 @@
                 <span asp-validation-for="Addressname" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Addersscity" class="control-label"></label>
-                <input asp-for="Addersscity" class="form-control" />
-                <span asp-validation-for="Addersscity" class="text-danger"></span>
+                <label asp-for="Addresscity" class="control-label"></label>
+                <input asp-for="Addresscity" class="form-control" />
+                <span asp-validation-for="Addresscity" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" /> |

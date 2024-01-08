@@ -29,14 +29,13 @@ namespace JobOffer.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseOracle("USER ID=JOR15_User99;PASSWORD=1234;DATA SOURCE=94.56.229.181:3488/traindb");
+                optionsBuilder.UseOracle("USER ID=ABDELMALEK;PASSWORD=123;DATA SOURCE=localhost:1521/orcl.msba.com");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema("JOR15_USER99")
+            modelBuilder.HasDefaultSchema("ABDELMALEK")
                 .HasAnnotation("Relational:Collation", "USING_NLS_COMP");
 
             modelBuilder.Entity<Addressh>(entity =>
@@ -51,11 +50,11 @@ namespace JobOffer.Models
                     .ValueGeneratedOnAdd()
                     .HasColumnName("ADDRESSID");
 
-                entity.Property(e => e.Addersscity)
+                entity.Property(e => e.Addresscity)
                     .IsRequired()
                     .HasMaxLength(70)
                     .IsUnicode(false)
-                    .HasColumnName("ADDERSSCITY");
+                    .HasColumnName("ADDRESSCITY");
 
                 entity.Property(e => e.Addressname)
                     .IsRequired()
@@ -120,7 +119,7 @@ namespace JobOffer.Models
                 entity.Property(e => e.Attchpath)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("ATTCHPATH");
+                    .HasColumnName("ATTACHPATH");
 
                 entity.Property(e => e.Userid)
                     .HasColumnType("NUMBER(38)")

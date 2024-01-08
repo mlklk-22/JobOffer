@@ -14,6 +14,7 @@ using System.Linq;
 
 using System.Security.Cryptography;
 using System.Threading.Tasks;
+using static JobOffer.Enums.ApplicationEnums;
 
 namespace JobOffer.Controllers
 {
@@ -105,8 +106,8 @@ namespace JobOffer.Controllers
 
             #region Send Email To Admin
             var email = new MimeMessage();
-            email.From.Add(MailboxAddress.Parse("haneenm7mud22@outlook.com"));
-            email.To.Add(MailboxAddress.Parse("haneenm7mud22@outlook.com"));
+            email.From.Add(MailboxAddress.Parse("mlkmsbh84@gmail.com"));
+            email.To.Add(MailboxAddress.Parse("mlkmsbh84@gmail.com"));
 
 
             email.Subject = Semail.subject;
@@ -115,7 +116,7 @@ namespace JobOffer.Controllers
             using (var smtp = new SmtpClient())
             {
                 smtp.Connect("smtp.outlook.com", 587, SecureSocketOptions.StartTls);
-                smtp.Authenticate("haneenm7mud22@outlook.com", "microsofthaneen2000");
+                smtp.Authenticate("mlkmsbh84@outlook.com", "1234mlok1234");
                 smtp.Send(email);
                 smtp.Disconnect(true);
             }
@@ -132,7 +133,7 @@ namespace JobOffer.Controllers
             using (var smtp = new SmtpClient())
             {
                 smtp.Connect("smtp.outlook.com", 587, SecureSocketOptions.StartTls);
-                smtp.Authenticate("haneenm7mud22@outlook.com", "microsofthaneen2000");
+                smtp.Authenticate("mlkmsbh84@outlook.com", "1234mlok1234");
                 smtp.Send(email);
                 smtp.Disconnect(true);
             }
@@ -295,22 +296,5 @@ namespace JobOffer.Controllers
         #endregion
     }
 
-    #region Status Enum
-    enum Status
-    {
-        Accept,
-        Pending,
-        Reject
-    }
-    #endregion
-
-    #region Job Type Enum
-    enum jobType
-    {
-        PartTime = 1, 
-        FullTime = 2
-    }
-    #endregion
-
-
+   
 }

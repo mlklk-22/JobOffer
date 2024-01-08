@@ -1,6 +1,8 @@
 ﻿using JobOffer.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using static JobOffer.Enums.ApplicationEnums;
+
 
 namespace JobOffer.Controllers
 {

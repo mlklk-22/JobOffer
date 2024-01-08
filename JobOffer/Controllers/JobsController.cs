@@ -15,6 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using MailKit.Net.Smtp;
+using static JobOffer.Enums.ApplicationEnums;
 
 namespace JobOffer.Controllers
 {
@@ -42,7 +43,7 @@ namespace JobOffer.Controllers
         {
             #region Values Of Drop Down List(AddressName, AddressCity, CatygoryJob)
             ViewData["AddressName"] = new SelectList(_context.Addresshes, "Addressid", "Addressname");
-            ViewData["AddressCity"] = new SelectList(_context.Addresshes, "Addressid", "Addersscity");
+            ViewData["AddressCity"] = new SelectList(_context.Addresshes, "Addressid", "Addresscity");
             ViewData["Jobcategoryid"] = new SelectList(_context.Jobcategoryhs, "Jobcategoryid", "Jobcategoryname"); 
             #endregion
 
@@ -145,7 +146,7 @@ namespace JobOffer.Controllers
 
             #region Values Of Drop Down List(AddressName, AddressCity, CatygoryJob)
             ViewData["AddressName"] = new SelectList(_context.Addresshes, "Addressid", "Addressname", job.Addressid);
-            ViewData["AddressCity"] = new SelectList(_context.Addresshes, "Addressid", "Addersscity", job.Addressid);
+            ViewData["AddressCity"] = new SelectList(_context.Addresshes, "Addressid", "Addresscity", job.Addressid);
             ViewData["Jobcategoryid"] = new SelectList(_context.Jobcategoryhs, "Jobcategoryid", "Jobcategoryname", job.Jobcategory); 
             #endregion
 
@@ -171,6 +172,7 @@ namespace JobOffer.Controllers
                             join Acc in AccountsList on job.Userid equals Acc.Userid
                             where job.Userid == HttpContext.Session.GetInt32("UserId")
                             select new JobViewJoin { Job = job, Address = addr, Account = Acc };
+
             #endregion
 
             return View(modelView);
@@ -218,7 +220,7 @@ namespace JobOffer.Controllers
             string fileName = Guid.NewGuid().ToString() + "_" + attchment.PdfFile.FileName;
             string extension = Path.GetExtension(attchment.PdfFile.FileName);
 
-            string path = Path.Combine(wwwrootPath + "/CvFiles/" + fileName);
+            string path = Path.Combine(wwwrootPath + "/CvFiles/" + JobInfo.Jobcategory + "/" + JobInfo.Jobid +"_" + fileName);
             using (var filestream = new FileStream(path, FileMode.Create))
             {
                 attchment.PdfFile.CopyToAsync(filestream);
@@ -306,11 +308,13 @@ namespace JobOffer.Controllers
         {
             var UserId = HttpContext.Session.GetInt32("UserId");
             var JobId = _context.Applyjobs.Where(x => x.Userid == UserId).Select(x => x.Jobid).FirstOrDefault();
-            var JobAppliedList = from job in _context.Jobhs
-                                 join JobApply in _context.Applyjobs on job.Jobid equals JobApply.Jobid
+            var JobAppliedList = from JobApply in _context.Applyjobs 
+                                 join acc in _context.Useraccounths on JobApply.Userid equals acc.Userid
+                                 join job in _context.Jobhs on acc.Userid equals job.Userid
+                                 join add in _context.Addresshes on job.Addressid equals add.Addressid
                                  where JobApply.Userid == UserId 
                                  where job.Status == Status.Accept.ToString()
-                                 select new ApplyJobViewJoin { Job = job, JobApp = JobApply};
+                                 select new ApplyJobViewJoin { Job = job, JobApp = JobApply, Address = add, Account = acc};
 
 
             return View(JobAppliedList);

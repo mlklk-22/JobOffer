@@ -11,7 +11,6 @@
                 <h1 class="text-white font-weight-bold">Apply Job</h1>
                 <div class="custom-breadcrumbs">
                     <a  asp-action="Home" asp-controller="ActualUser">Home</a> <span class="mx-2 slash">/</span>
-                    <a href="#">Job</a> <span class="mx-2 slash">/</span>
                     <a> <span class="text-white"><strong>Apply Job</strong></span></a>
                 </div>
             </div>
@@ -28,13 +27,13 @@
                                 <div class="col-lg-8 mb-4 mb-lg-0">
                                     <div class="d-flex align-items-center" style="margin-top:50px">
                                         <div class="border p-2 d-inline-block mr-3 rounded">
-                                            <img src="~/Assests/images/job_logo_5.jpg" alt="Image">
+                                           <img src="@Url.Content("~/JobsImages/" + item.Job.Jobimage)" alt="Image">
                                         </div>
                                         <div>
                                             <h2>@item.Job.Jobname</h2>
                                             <div>
                                                 <span class="ml-0 mr-2 mb-2"><span class="icon-briefcase mr-2"></span>@item.Account.Industialname</span>
-                                                    <span class="m-2"><span class="icon-room mr-2"></span>@*@item.Address.Addersscity, @item.Address.Addressname*@</span>
+                                                    <span class="m-2"><span class="icon-room mr-2"></span>@*@item.Address.Addresscity, @item.Address.Addressname*@</span>
                                                 <span class="m-2"><span class="icon-clock-o mr-2"></span><span class="text-primary">@item.Job.Jobtype</span></span>
                                             </div>
                                         </div>
