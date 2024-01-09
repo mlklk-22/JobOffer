@@ -106,8 +106,8 @@ namespace JobOffer.Controllers
 
             #region Send Email To Admin
             var email = new MimeMessage();
-            email.From.Add(MailboxAddress.Parse("mlkmsbh84@gmail.com"));
-            email.To.Add(MailboxAddress.Parse("mlkmsbh84@gmail.com"));
+            email.From.Add(MailboxAddress.Parse("mlkmsbh84@outlook.com"));
+            email.To.Add(MailboxAddress.Parse("mlkmsbh84@outlook.com"));
 
 
             email.Subject = Semail.subject;
@@ -124,17 +124,17 @@ namespace JobOffer.Controllers
 
             #region Send Email To User
             var emailUser = new MimeMessage();
-            email.From.Add(MailboxAddress.Parse("haneenm7mud22@outlook.com"));
-            email.To.Add(MailboxAddress.Parse(Semail.email));
+            emailUser.From.Add(MailboxAddress.Parse("mlkmsbh84@outlook.com"));
+            emailUser.To.Add(MailboxAddress.Parse(Semail.email));
 
-            email.Subject = "Contacting Us!";
-            email.Body = new TextPart(TextFormat.Text) { Text = "Ms / Mrs" + " " + Semail.fname + " " + Semail.lname + " " + "Thank You For Contacting Us :)"};
+            emailUser.Subject = "Contacting Us!";
+            emailUser.Body = new TextPart(TextFormat.Text) { Text = "Ms / Mrs" + " " + Semail.fname + " " + Semail.lname + " " + "Thank You For Contacting Us :)"};
 
             using (var smtp = new SmtpClient())
             {
                 smtp.Connect("smtp.outlook.com", 587, SecureSocketOptions.StartTls);
                 smtp.Authenticate("mlkmsbh84@outlook.com", "1234mlok1234");
-                smtp.Send(email);
+                smtp.Send(emailUser);
                 smtp.Disconnect(true);
             }
             #endregion

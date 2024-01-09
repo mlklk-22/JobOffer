@@ -303,7 +303,7 @@ namespace JobOffer.Controllers
             var email = new MimeMessage();
 
 
-            email.From.Add(MailboxAddress.Parse("haneenm7mud22@outlook.com"));
+            email.From.Add(MailboxAddress.Parse("mlkmsbh84@outlook.com"));
             email.To.Add(MailboxAddress.Parse(UserInfo.Email));
 
 
@@ -323,7 +323,7 @@ namespace JobOffer.Controllers
             using (var smtp = new SmtpClient())
             {
                 smtp.Connect("smtp.outlook.com", 587, SecureSocketOptions.StartTls);
-                smtp.Authenticate("haneenm7mud22@outlook.com", "microsofthaneen2000");
+                smtp.Authenticate("mlkmsbh84@outlook.com", "1234mlok1234");
                 smtp.Send(email);
                 smtp.Disconnect(true);
             }
@@ -343,7 +343,7 @@ namespace JobOffer.Controllers
 
             #region Sending Email To User
             var email = new MimeMessage();
-            email.From.Add(MailboxAddress.Parse("haneenm7mud22@outlook.com"));
+            email.From.Add(MailboxAddress.Parse("mlkmsbh84@outlook.com"));
             email.To.Add(MailboxAddress.Parse(UserInfo.Email));
 
 
@@ -364,7 +364,7 @@ namespace JobOffer.Controllers
             using (var smtp = new SmtpClient())
             {
                 smtp.Connect("smtp.outlook.com", 587, SecureSocketOptions.StartTls);
-                smtp.Authenticate("haneenm7mud22@outlook.com", "microsofthaneen2000");
+                smtp.Authenticate("mlkmsbh84@outlook.com", "1234mlok1234");
                 smtp.Send(email);
                 smtp.Disconnect(true);
             }

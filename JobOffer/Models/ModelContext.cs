@@ -29,13 +29,13 @@ namespace JobOffer.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseOracle("USER ID=ABDELMALEK;PASSWORD=123;DATA SOURCE=localhost:1521/orcl.msba.com");
+                optionsBuilder.UseOracle("USER ID=SALEH;PASSWORD=Saleh;DATA SOURCE=localhost:1521/orcl");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema("ABDELMALEK")
+            modelBuilder.HasDefaultSchema("SALEH")
                 .HasAnnotation("Relational:Collation", "USING_NLS_COMP");
 
             modelBuilder.Entity<Addressh>(entity =>
