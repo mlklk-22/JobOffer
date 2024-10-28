@@ -1,6 +1,6 @@
 ﻿namespace JobOffer.Enums
 {
-    public class ApplicationEnums 
+    public class ApplicationEnums
     {
         #region Status Enum
        public enum Status
